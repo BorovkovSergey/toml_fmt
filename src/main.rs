@@ -1,8 +1,4 @@
-use std::{
-    env,
-    fs::{read_to_string, File},
-    io::Write,
-};
+use std::{env, fs::read_to_string};
 
 use toml_edit::Document;
 
@@ -23,11 +19,7 @@ fn sort_block(document: &mut Document, key: &str) {
 }
 
 fn save_to_file(document: Document, path: &str) {
-    let mut credentials_config = File::create(path).expect("Failed to create file");
-
-    credentials_config
-        .write_all(document.to_string().as_bytes())
-        .expect("Failed to write file");
+    std::fs::write(path, document.to_string().as_bytes()).expect("Failed to save file")
 }
 
 pub fn get_path() -> String {
