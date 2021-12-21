@@ -1,4 +1,5 @@
 use std::{
+    env,
     fs::{read_to_string, File},
     io::Write,
 };
@@ -29,14 +30,17 @@ fn save_to_file(document: Document, path: &str) {
         .expect("Failed to write file");
 }
 
-fn main() {
-    let path = "/Users/sergeyborovkov/Developer/rust/TomlFmt/test_copy.toml";
+pub fn get_path() -> String {
+    env::args().nth(1).expect("Path isn't set")
+}
 
-    let mut document = read_to_document(path);
+fn main() {
+    let path = get_path();
+
+    let mut document = read_to_document(path.as_str());
 
     sort_block(&mut document, "dependencies");
     sort_block(&mut document, "dev-dependencies");
 
-    let path = "/Users/sergeyborovkov/Developer/rust/TomlFmt/test";
-    save_to_file(document, path);
+    save_to_file(document, path.as_str());
 }
